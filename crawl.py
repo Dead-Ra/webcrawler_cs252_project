@@ -18,9 +18,10 @@ from urlparse import urljoin
 #### check_dup(url)-----> checks if url is already present or not in url_list
 
 #setting proxy connection
-proxy = urllib2.ProxyHandler({'http': 'http://dibya:dibya78@proxy.iitk.ac.in:3128'})
+proxy = urllib2.ProxyHandler({'https': 'http://dibya:dibya78@proxy.iitk.ac.in:3128',
+			      'http': 'http://dibya:dibya78@proxy.iitk.ac.in:3128'})
 auth = urllib2.HTTPBasicAuthHandler()
-opener = urllib2.build_opener(proxy, auth, urllib2.HTTPHandler)
+opener = urllib2.build_opener(proxy, auth, urllib2.HTTPHandler,urllib2.HTTPSHandler,urllib2.HTTPRedirectHandler)
 urllib2.install_opener(opener)
 #proxy connection made
 
@@ -39,11 +40,14 @@ curr_depth = 0;max_depth=3		#max limit 3
 #enque first link
 #url_list.put('http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=24592&copyownerid=2');
 #url_list.put('http://2011.comad.in/');
-#url_list.put('http://docs.python.org/2/tutorial/errors.html');
-url_list.put('')
+#url_list.put('http://groups.drupal.org/node/290703');
+#url_list.put('https://webmail.iitk.ac.in')......................still not working
+url_list.put('http://www.baidu.com/s?wd=fuck&rsv_bp=0&ch=&tn=baidu&bar=&rsv_spt=3&ie=utf-8&rsv_sug3=10&rsv_sug=0&rsv_sug4=1154&inputT=3537')
 url_list.put('-----c-----');
 print url_list.queue
 url_list_all.append('http://groups.drupal.org/node/290703');
+
+
 ############################################################
 class MyHTMLParser(HTMLParser):
 
@@ -52,16 +56,20 @@ class MyHTMLParser(HTMLParser):
 		if tag == "a":
 			for attr in attrs:
             			if attr[0] == "href":
-					url = urljoin(curr_page_url,attr[1])
+					url = urljoin(curr_page_url,attr[1])	#to take care of relativ links
 					if (url not in url_list_all):#check for duplicate.
 						print url						
 						url_list.put(url)
 						url_list_all.append(url)
+		if tag == "frame":
+			for attr in attrs:
+				if attr[0] == "src":
+					url = urljoin(curr_page_url,attr[1])
+					if (url not in url_list_all):
 						print url
+						url_list.put(url)
+						url_list_all.append(url)
 
-
-	#def handle_endtag(self, tag):
-        #	print "End tag  :", tag
 
 	#def handle_data(self, data):
         #	print "Data     :", data
@@ -69,6 +77,7 @@ class MyHTMLParser(HTMLParser):
 ##############################################################
 
 parser = MyHTMLParser()
+
 
 while(url_list.empty() == 0 and curr_depth < max_depth):
 
@@ -79,9 +88,24 @@ while(url_list.empty() == 0 and curr_depth < max_depth):
 		 curr_depth = curr_depth+1
 	else:
 		#fetching link
-		#curr_page_url = urlparse.urlsplit(curr_page_url)
-		#curr_page_url = curr_page_url.geturl()
-		f = urllib2.urlopen(curr_page_url)
+		curr_page_url = urlparse.urlsplit(curr_page_url)
+		curr_page_url = curr_page_url.geturl()
+
+		hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+       'Accept-Encoding': 'none',
+       'Accept-Language': 'en-US,en;q=0.8',
+       'Connection': 'keep-alive'}
+
+		req = urllib2.Request(curr_page_url, headers=hdr)
+		try:
+    			f = urllib2.urlopen(req)
+		except urllib2.HTTPError, e:
+    			print e.fp.read()
+		except urllib2.URLError, e2:
+    			print "There was an error:", e2
+
 
 		#storing html page in temporary web1 file
 		of = open('web1','w')
@@ -93,18 +117,8 @@ while(url_list.empty() == 0 and curr_depth < max_depth):
 
 		#parsing the page for hrefs only
 		for line in fin.readlines():
-			
-			parser.feed(line)
-	
 
+				parser.feed(line.decode('utf-8'))
+	
 #	step 0:
 #		checking the page for specific keywords
-
-
-
-'''
-	step 1:
-		getting all absolute fresh urls from the page and save them in a stack(BFS)
-	step 2:
-		recursive calls to all urls till a certain depth
-'''
