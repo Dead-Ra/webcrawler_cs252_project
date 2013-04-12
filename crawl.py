@@ -1,7 +1,8 @@
+import sys
 import urllib2,urllib
 from HTMLParser import HTMLParser
-import Queue
-from Queue import Queue
+#import Queue
+#from Queue import Queue
 import urlparse
 from urlparse import urljoin
 
@@ -26,26 +27,35 @@ urllib2.install_opener(opener)
 #proxy connection made
 
 #declaring variables
-wordsearch = ['important','date','submission','deadline']
-url_list = Queue()
+wordsearch = ['important','date','submission','deadline','timeline','time','calender'] #event
+url_list = list()
 url_list_all = []
-priority_list = Queue()
+priority_list = list()
+result_list = list()
 found = 0;
 curr_page_url = "";
-curr_depth = 0;max_depth=3		#max limit 3
+curr_depth = 0;max_depth=3;		#max limit 3
+flag2=0;
 
+#date
+
+# "^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$" for dd-mm-yyyy
+# "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" for yyyy-mm-dd
 
 # get the first url
 
 #enque first link
 #url_list.put('http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=24592&copyownerid=2');
 #url_list.put('http://2011.comad.in/');
-#url_list.put('http://groups.drupal.org/node/290703');
-#url_list.put('https://webmail.iitk.ac.in')......................still not working
-url_list.put('http://www.baidu.com/s?wd=fuck&rsv_bp=0&ch=&tn=baidu&bar=&rsv_spt=3&ie=utf-8&rsv_sug3=10&rsv_sug=0&rsv_sug4=1154&inputT=3537')
-url_list.put('-----c-----');
-print url_list.queue
-url_list_all.append('http://groups.drupal.org/node/290703');
+#url_list.append('http://groups.drupal.org/node/290703');
+#url_list.append('https://webmail.iitk.ac.in')......................still not working
+#url_list.put('http://www.conferencealerts.com/show-event?id=116000')
+#url_list.put('http://www.conferencealerts.com/topic-listing?topic=Anthropology')
+#url_list.append('http://www.baidu.com/s?wd=google&rsv_bp=0&ch=&tn=baidu&bar=&rsv_spt=3&ie=utf-8&rsv_sug3=4&inputT=887')
+url_list.append('http://www.vldb.org/2013/')
+url_list.append('-----c-----');
+#print url_list
+url_list_all.append('http://www.vldb.org/2013/');
 
 
 ############################################################
@@ -53,39 +63,87 @@ class MyHTMLParser(HTMLParser):
 
 	def handle_starttag(self,tag,attrs):
 
+		global flag2
+
 		if tag == "a":
 			for attr in attrs:
             			if attr[0] == "href":
 					url = urljoin(curr_page_url,attr[1])	#to take care of relativ links
 					if (url not in url_list_all):#check for duplicate.
-						print url						
-						url_list.put(url)
+						flag=0
+						flag2=1
+						for w in wordsearch:
+							if w in url:
+								flag=1
+						if(flag==1):
+							priority_list.append(url)
+							url_list.append(url)
+							flag2=0
+						else:						
+							url_list.append(url)
+						#print url
 						url_list_all.append(url)
-		if tag == "frame":
+
+		if (tag == "frame" or tag == "iframe"):
 			for attr in attrs:
 				if attr[0] == "src":
 					url = urljoin(curr_page_url,attr[1])
 					if (url not in url_list_all):
-						print url
-						url_list.put(url)
-						url_list_all.append(url)
+						flag=0
+						flag2=1		# i think this needs to be done........
+                                                for w in wordsearch:
+                                                        if w in url:
+                                                                flag=1
+                                                if(flag==1):
+                                                        priority_list.append(url)
+                                                else:    
+                                                        url_list.append(url)
+                                                #print url
+                                                url_list_all.append(url)
 
+	def handle_endtag(self, tag):
+		global flag2
+		if (tag == "a") :
+			flag2 = 0
 
-	#def handle_data(self, data):
-        #	print "Data     :", data
+	def handle_data(self, data):
+		global flag2
+		if (flag2==1):
+			#print "link------>",data
+			for w in wordsearch:
+				if (w in data.lower()):
+					a=9
+					#move from normal list to priority list
+					#print "Data------->", data
+					#priority_list.append(url_list.pop())
+					
+
+#if keywords are in link then don't mark the current page. Mark them only when it is in this page and not in hypertext way
+		else:
+			flag_res=0
+			for w in wordsearch:
+				if w in data.lower():
+					flag_res=1
+					print data.lower()
+			if(flag_res ==1 and (curr_page_url not in result_list)):
+				result_list.append(curr_page_url)
+				print result_list;
+			#	sys.exit()
 
 ##############################################################
 
 parser = MyHTMLParser()
 
 
-while(url_list.empty() == 0 and curr_depth < max_depth):
+while(len(url_list) != 0 and curr_depth < max_depth):
 
-	curr_page_url = url_list.get()
-	print '___________',curr_page_url,'___________'
+	curr_page_url = url_list.pop(0)
+	#print '___________',curr_page_url,'___________'
 	if(curr_page_url == '-----c-----'):
-		 url_list.put('-----c-----')
-		 curr_depth = curr_depth+1
+		#print "PPPPPPPPPRRRRRRRRRRRIIIIIIIIIIIOOOOOOOOOOOOOOOORRRRRRRRRRRR"
+		#print result_list
+		url_list.insert(len(url_list),'-----c-----')
+		curr_depth = curr_depth+1
 	else:
 		#fetching link
 		curr_page_url = urlparse.urlsplit(curr_page_url)
@@ -117,8 +175,8 @@ while(url_list.empty() == 0 and curr_depth < max_depth):
 
 		#parsing the page for hrefs only
 		for line in fin.readlines():
-
-				parser.feed(line.decode('utf-8'))
-	
-#	step 0:
-#		checking the page for specific keywords
+#				print line
+#				try:
+				parser.feed(line)
+#				except:
+			#	parser.feed(line.decode('utf-8'))
