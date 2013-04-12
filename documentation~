@@ -1,0 +1,20 @@
+9/4
+	-facing problem parsing links.Code is running successfully but there are some kind of links which are non-respondent by urlib.
+	-some of them are https://*
+	-can't parse this page-----"http://groups.drupal.org/node/290703"
+		-problem is can't encode a special character in one of the link in the content containing letter outside english
+	- take care that often there is a link to home ie root page 
+10/4
+	- can't parse redirecting links.
+	- setting time out(as some site take too much time to open)
+	- taking care of iframes
+	- "http://gator1795.hostgator.com/~sigdata/" check for this case
+	
+12/4
+
+	- check for "mailto:"
+	- to handle timeout
+		-The optional timeout parameter specifies a timeout in seconds for blocking operations like the connection attempt (if not specified, the global default timeout setting will be used)
+	-proxy connection handled successfully
+	
+

@@ -1,4 +1,4 @@
-import urllib2,urllib
+import urllib
 from HTMLParser import HTMLParser
 import Queue
 from Queue import Queue
@@ -17,12 +17,6 @@ from urlparse import urljoin
 
 #### check_dup(url)-----> checks if url is already present or not in url_list
 
-#setting proxy connection
-proxy = urllib2.ProxyHandler({'http': 'http://dibya:dibya78@proxy.iitk.ac.in:3128'})
-auth = urllib2.HTTPBasicAuthHandler()
-opener = urllib2.build_opener(proxy, auth, urllib2.HTTPHandler)
-urllib2.install_opener(opener)
-#proxy connection made
 
 #declaring variables
 wordsearch = ['important','date','submission','deadline']
@@ -39,8 +33,7 @@ curr_depth = 0;max_depth=3		#max limit 3
 #enque first link
 #url_list.put('http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=24592&copyownerid=2');
 #url_list.put('http://2011.comad.in/');
-#url_list.put('http://docs.python.org/2/tutorial/errors.html');
-url_list.put('')
+url_list.put('http://groups.drupal.org/node/290703');
 url_list.put('-----c-----');
 print url_list.queue
 url_list_all.append('http://groups.drupal.org/node/290703');
@@ -81,7 +74,7 @@ while(url_list.empty() == 0 and curr_depth < max_depth):
 		#fetching link
 		#curr_page_url = urlparse.urlsplit(curr_page_url)
 		#curr_page_url = curr_page_url.geturl()
-		f = urllib2.urlopen(curr_page_url)
+		f = urllib.urlopen(curr_page_url)
 
 		#storing html page in temporary web1 file
 		of = open('web1','w')
