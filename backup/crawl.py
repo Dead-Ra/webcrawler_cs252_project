@@ -5,7 +5,6 @@ from HTMLParser import HTMLParser
 #from Queue import Queue
 import urlparse
 from urlparse import urljoin
-import re
 import json
 from pprint import pprint
 
@@ -39,7 +38,7 @@ hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML,
 
 
 #declaring variables
-wordsearch = ['submission','deadline','timeline','calender'] #event
+wordsearch = ['important','date','submission','deadline','timeline','time','calender'] #event
 url_list = list()
 url_list_all = []
 priority_list = list()
@@ -48,21 +47,8 @@ found = 0;
 curr_page_url = "";
 curr_depth = 0;max_depth=2;		#max limit 3
 flag2=0;
-flag_res=0;
-#date
-
-date1 = "(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d" # mm-dd-yyyy
-date2 = "(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])" # yyyy-mm-dd
-date3 = "(0[1-9]|[12][0-9]|3[01])(st|nd|rd|th| )[- /.](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|Septempber|October|November|December)[- /.,](19|20)\d\d" #dd{..}-{march}-,yyyy
-date4 = "(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|january|february|march|april|may|june|july|august|septempber|october|november|december)[- /.,](0[1-9]|[12][0-9]|3[01])(st|nd|rd| |th|)(,| )[\s]*(19|20)\d\d"
-d1 = re.compile(date1)
-d2 = re.compile(date2)
-d3 = re.compile(date3) 
-d4 = re.compile(date4)
-
 #Google api search----first go"
-query=sys.argv[1]+" 2013"
-conf_type=sys.argv[2]
+query=sys.argv[1]
 query1=query.split()
 q='+'.join(query1)
 gg="https://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=large&q="
@@ -84,7 +70,12 @@ for i in range(8):
 	q1=data["responseData"]["results"][i]["unescapedUrl"]
 	url_to_visit.append(q1)
 print url_to_visit
-print "\n\n"
+print "\n\n\n\n"
+
+#date
+
+# "^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$" for dd-mm-yyyy
+# "^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$" for yyyy-mm-dd
 
 # get the first url
 
@@ -100,21 +91,6 @@ url_list.append(url_to_visit[0])
 url_list.append('-----c-----');
 #print url_list
 url_list_all.append(url_to_visit[0]);
-
-#function to search for useful data
-def search_date(data):
-	global d1
-	global d2
-	global d3
-	global d4
-	m1=d1.search(data);
-	m2=d2.search(data);
-	m3=d3.search(data);
-	m4=d4.search(data);
-	if(m1 or m2 or m3 or m4):
-		return 1
-	else:
-		return 0
 
 
 ############################################################
@@ -179,19 +155,15 @@ class MyHTMLParser(HTMLParser):
 
 #if keywords are in link then don't mark the current page. Mark them only when it is in this page and not in hypertext way
 		else:
-			global flag_res;
+			flag_res=0
 			for w in wordsearch:
-				datal = data.lower()
-				if w in datal:
-					print "pass one--------->"+datal
+				if w in data.lower():
 					flag_res=1
+					print data.lower()
 			if(flag_res ==1 and (curr_page_url not in result_list)):
-				match_res = search_date(datal)
-				if(match_res==1):
-					result_list.append(curr_page_url)
-					print "pass two---------->"+datal
-					print result_list;
-					sys.exit()
+				result_list.append(curr_page_url)
+				print result_list;
+			#	sys.exit()
 
 ##############################################################
 
