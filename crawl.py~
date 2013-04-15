@@ -39,7 +39,7 @@ hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML,
 
 
 #declaring variables
-wordsearch = ['submission','deadline','timeline','calender'] #event
+wordsearch = ['submission','deadline','timeline','calender'] #event,important,event,date,time
 url_list = list()
 url_list_all = []
 priority_list = list()
@@ -48,7 +48,7 @@ found = 0;
 curr_page_url = "";
 curr_depth = 0;max_depth=2;		#max limit 3
 flag2=0;
-flag_res=0;
+flag_res=0
 #date
 
 date1 = "(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d" # mm-dd-yyyy
@@ -67,7 +67,7 @@ query1=query.split()
 q='+'.join(query1)
 gg="https://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=large&q="
 google=gg+q
-print google
+#print google
 req = urllib2.Request(google, headers=hdr)
 try:
 	f = urllib2.urlopen(req)
@@ -83,8 +83,8 @@ url_to_visit = list()
 for i in range(8):
 	q1=data["responseData"]["results"][i]["unescapedUrl"]
 	url_to_visit.append(q1)
-print url_to_visit
-print "\n\n"
+#print url_to_visit
+#print "\n\n"
 
 # get the first url
 
@@ -99,6 +99,7 @@ print "\n\n"
 url_list.append(url_to_visit[0])
 url_list.append('-----c-----');
 #print url_list
+print "<a href='"+url_to_visit[0]+"' target=_blank>"+url_to_visit[0]+"</a><br>"
 url_list_all.append(url_to_visit[0]);
 
 #function to search for useful data
@@ -112,9 +113,9 @@ def search_date(data):
 	m3=d3.search(data);
 	m4=d4.search(data);
 	if(m1 or m2 or m3 or m4):
-		return 1
+		 return 1
 	else:
-		return 0
+		 return 0
 
 
 ############################################################
@@ -183,19 +184,22 @@ class MyHTMLParser(HTMLParser):
 			for w in wordsearch:
 				datal = data.lower()
 				if w in datal:
-					print "pass one--------->"+datal
 					flag_res=1
+					#print datal
 			if(flag_res ==1 and (curr_page_url not in result_list)):
 				match_res = search_date(datal)
 				if(match_res==1):
+					print data+"\n"
 					result_list.append(curr_page_url)
-					print "pass two---------->"+datal
 					print result_list;
 					sys.exit()
 
 ##############################################################
 
 parser = MyHTMLParser()
+
+while 1:
+	while(len(priority_list)!=0):
 
 
 while(len(url_list) != 0 and curr_depth < max_depth):

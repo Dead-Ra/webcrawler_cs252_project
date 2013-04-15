@@ -1,113 +1,248 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
-<head>
-	<title>CIKM 2013, San Francisco, CA, USA</title>
-<link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="css/menu.css">
-<script src="scripts/menu.js"></script></head>
-<body>
-	<center>
-	<table id="header" width="1000" border="0" cellpadding="0" cellspacing="0">
-	<tr><td><img src="images/cikm_header_sliced_01.jpg" width="1000" height="69" alt=""></td></tr>
-	<tr><td><img src="images/cikm_header_sliced_02.jpg" width="1000" height="107" alt=""></td></tr>
-	<tr><td><img src="images/cikm_header_sliced_03.jpg" width="1000" height="48" alt=""></td></tr>
-	<tr><td><img src="images/cikm_header_sliced_04.jpg" width="1000" height="109" alt=""></td></tr>
-</table>
-<div class="navMenuContent">
-	<div class="navMenuItem" style="margin-left: 20px">
-		<a href="index.php">Home</a>
-	</div>
-	<div class="navMenuItem" onmouseover="MenuController.showMenu(this);" data-menu="menu_participants">
-		<a href="#">Participants</a>
-		<div class="navSubMenu" id="menu_participants">
-			<div class="navSubMenuItem"><a href="cfp.php">Call for Papers</a></div>
-			<div class="navSubMenuItem"><a href="cfposters.php">Call for Posters</a></div>
-			<div class="navSubMenuItem"><a href="cfworkshop.php">Call for Workshop Proposals</a></div>
-			<div class="navSubMenuItem"><a href="cfdemos.php">Call for Demonstrations</a></div>
-			<div class="navSubMenuItem"><a href="dates.php">Important Dates</a></div>
+	<head>
+		<title></title>
+		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+
+
+	<script type="text/javascript">
+
+
+			(function($){
+				$.randomImage = {
+					defaults: {
+						path: 'images/', 
+						//myImages: ['bris0.png', 'bris1.png', 'bris2.png', 'bris3.png', 'bris4.png', 'bris5.png', 'bris6.png', 'bris7.png', 'bris8.png', 'bris9.png', 'bris10.png', 'bris11.png'] //put image names in this bracket. ex: 'harold.jpg', 'maude.jpg', 'etc'
+						myImages: ['bris0.jpg', 'bris1.jpg', 'bris2.jpg', 'bris3.jpg', 'bris4.jpg', 'bris5.jpg'] 
+
+
+
+						//myImages: ['bris0.png', 'bris1.png', 'bris2.png' ] //put image names in this bracket. ex: 'harold.jpg', 'maude.jpg', 'etc'
+						
+					}			
+				}
+				
+				$.fn.extend({
+						randomImage:function(config) {
+							
+							var config = $.extend({}, $.randomImage.defaults, config); 
+							
+							 return this.each(function() {
+									
+									var imageNames = config.myImages;
+									
+									//get size of array, randomize a number from this
+									// use this number as the array index
+			
+									var imageNamesSize = imageNames.length;
+			
+									var lotteryNumber = Math.floor(Math.random()*imageNamesSize);
+			
+									var winnerImage = imageNames[lotteryNumber];
+			
+									var fullPath = config.path + winnerImage;
+									
+									
+									//put this image into DOM at class of randomImage
+									// alt tag will be image filename.
+									$(this).attr( {
+													src: fullPath,
+													alt: winnerImage
+												});
+							
+									
+							});	
+						}
+						
+				});
+				})(jQuery);
+				
+				$(document).ready(function(){
+					$('#banner').randomImage();
+					$('#banner').css('display','normal');
+
+				});
+				
+		</script>
+		
+	</head>
+	<body>
+		<div class="header">
+		<div class="banner">
+			<img id="banner" src="" alt="">
 		</div>
-	</div>
-	<div class="navMenuItem" onmouseover="MenuController.showMenu(this);" data-menu="menu_program">
-		<a href="#">Program</a>
-		<div class="navSubMenu" id="menu_program">
-			<div class="navSubMenuItem"><a href="#">Keynote Speakers</a></div>
-			<div class="navSubMenuItem"><a href="#">Program Schedule</a></div>
-			<div class="navSubMenuItem"><a href="industry.php">Industry Events</a></div>
+
+
+
+	<a href="index.html" alt="Back to Home"  title="Back to Home">
+		<h1><span class="smaller">29th IEEE International Conference on</span><br />Data Engineering</h1>
+		<h2>Brisbane, Australia | April 8-11, 2013</h2>
+		</a>
 		</div>
+		<div id="content_wrap">
+		<div id="centre" class="column">
+
+
+<div align="center"><h1>  
+SUBMISSION GUIDELINES
+<br>
+ICDE 2013: 29th IEEE International Conference on Data Engineering 
+<br> </h1>
+<h2>Sponsored by the IEEE Computer Society </h2>
+<br>
+
+</div>
+
+<div align="center"><h2>
+Sofitel Brisbane Central Hotel, Brisbane, Australia, April 8-11, 2013
+<h2>
+</div>
+
+<br>
+
+<div align="center"><a href="http://www.icde2013.org">http://www.icde2013.org</a>  
+<br>
+Submissions: <a href="https://cmt.research.microsoft.com/ICDE2013">https://cmt.research.microsoft.com/ICDE2013</a> 
+</div>
+<br>
+
+
+<p>All submissions must be prepared in the IEEE camera-ready format and submitted to the CMT system at <a href="https://cmt.research.microsoft.com/ICDE2013">https://cmt.research.microsoft.com/ICDE2013</a>. Research and industry paper submissions are limited to 12 pages. A paper submitted to ICDE 2013 cannot be under review for any other conference or journal during the entire time it is considered for ICDE 2013, and it must be substantially different from any previously published work (other than posters or short papers with a length of up to 4 pages when converted into the IEEE format). Submissions to the industry program may be paper-length or extended abstracts of 1-2 pages. They should present interesting aspects of commercial products and services and lessons learned from practical usage, not research results or prototypes from industry labs.</p>
+
+<p>Submissions are reviewed in a single-blind manner. </p>
+
+<p>All accepted papers will appear in the proceedings. The online proceedings may be published as early as February 1, 2013.  Accepted papers will be 12 pages long.  The best papers will be selected for extended versions to be published in the IEEE Transactions on Knowledge and Data Engineering. IEEE reserves the right to exclude a paper from distribution after the conference (e.g., removal from IEEE Xplore) if the authors do not attend the conference to present their paper.</p>
+
+Formatting instructions and LaTeX macros are now available for download:<br>
+<br>
+LaTeX users: please download this <a href="IEEE_Paper_LaTeX_Template_LETTER_V2.zip">file </a><br>
+Word users: please download this <a href="IEEE_Paper_Word_Template_LETTER_V2.zip">file </a><br>
+
+<p><b>Important note:</b> Only submissions in <b>PDF format</b> are accepted.</p>
+
+<br>
+<h1> IMPORTANT DATES FOR RESEARCH AND INDUSTRY PAPERS </h1>
+
+	<ul>
+		<li>Abstract due: 17:00 PDT July 16, 2012</li>
+		<li>Full paper submissions due: 17:00 PDT July 23, 2012</li>
+		<li>Notification to authors: October 14, 2012</li>
+		<li>Final versions due: November 30, 2012</li>
+		<li>Conference: April 8-11, 2013</li>
+	</ul>
+
+
+
+
+
+
+
+
+	
+	
 	</div>
-	<div class="navMenuItem" onmouseover="MenuController.showMenu(this);" data-menu="menu_contributors">
-		<a href="#">Contributors</a>
-		<div class="navSubMenu" id="menu_contributors">
-			<div class="navSubMenuItem"><a href="cfsponsorship.php">Call For Sponsorship</a></div>
+
+		<div id="left" class="column">
+		
+				<ul>
+				<li><span>Conference Information</span>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="news.html">News</a></li>
+						<li><a href="dates.html">Important Dates</a></li>
+						<li><a href="reg.html">Registration</a></li>						
+						<li><a href="sub.html">Submission Guidelines</a></li>
+						<li><a href="author.html">Author Instructions</a></li><li><a href="sts.html">Student Travel Scholarships</a></li><li><a href="TCDE.html">TCDE Reception</a></li>
+
+					</ul>
+				</li>
+				<li><span>Organization</span>
+					<ul>
+						<li><a href="org.html">Organizing Committee</a></li>
+						<li><a href="pc.html">Program Committee</a></li>
+					</ul>
+				</li>				
+				<li><a href="#">Program</a>
+					<ul>
+						<li><a href="glance.html">Program at a Glance</a></li>
+						<li><a href="program.html">Program</a></li>
+						<li><a href="keynotes.html">Keynotes</a></li>
+						<li><a href="workshops.html">Workshops</a></li>
+						<li><a href="papers.html">Accepted Papers</a></li>
+						<li><a href="demos.html">Demos</a></li>
+						<li><a href="seminars.html">Seminars</a></li>	<li><a href="panel.html">Panel</a></li>		
+						
+					</ul>
+				</li>
+				<li><a href="#">Travel Information</a>
+					<ul>
+						<li><a href="bne.html">About Brisbane</a></li>
+						<li><a href="travel.html">Traveling to Brisbane</a></li>
+						<li><a href="venue.html">Conference Venue</a></li><li><a href="accommodation.html">Accommodation</a></li>
+					</ul>
+				</li>
+					<li><a href="#">Call for Contributions</a>
+					<ul>
+						<li><a href="cfp.html">Call for Papers</a></li>
+						<li><a href="cfd.html">Call for Demos</a></li>
+						<li><a href="cfw.html">Call for Workshops</a></li>
+						<li><a href="cfsem.html">Call for Seminars</a></li>
+						<li><a href="cfpnl.html">Call for Panels</a></li>
+						<li><a href="cfphd.html">Call for PhD Symposium Papers</a></li>
+					
+
+
+					</ul>
+				</li>
+
+			</ul>
+			
+
+
+			
+
 		</div>
-	</div>
-	<div class="navMenuItem">
-		<a href="organization.php">Organizers</a>
-	</div>
-	<div class="navMenuItem">
-		<a href="aboutsf.php">About</a>
-	</div>					
-</div>	<table id="pageContent" width="1000" cellspacing="0" cellpadding="0" border="0">
-		<tr>
-			<td width="740">
-				<div class="pageContentInner">
-					<p style="font-size: 12pt;" align="center"><b>ACM International Conference on Information and <br> Knowledge Management (CIKM 2013)</b></p>
-					<p>The 22nd ACM International Conference on Information and Knowledge Management (CIKM 2013) will be held from October 27 to November 1, 2013 at San Francisco Airport Marriott Waterfront, Burlingame, CA, USA. CIKM is a well-known top tier and premier ACM conference in the areas of information retrieval, knowledge management and databases. Since 1992, it has successfully brought together leading researchers and developers from the three communities. The purpose of the conference is to identify challenging problems facing the development of future knowledge and information systems, and to shape future research directions through the publication of high quality, applied and theoretical research findings. In CIKM 2013, we will continue the tradition of promoting collaboration among multiple areas. We encourage submissions of high quality papers on all topics in the general areas of databases, information retrieval, and knowledge management.</p>
-					<div class="pageContentDivider">
-						Latest News
-					</div>
-					<div class="pageContentBox">
-						<div class="pageContentBoxItem">
-							<div class="pageContentBoxItem">
-								<div style="float: right; width: 440px;">
-									<b>March 31st, 2013</b> - Follow CIKM on the <a href="https://www.facebook.com/ACMCIKM">ACM CIKM Facebook Page</a> and <a href="http://www.linkedin.com/groups/ACM-CIKM-4924715">ACM CIKM 2013 LinkedIn Group</a>.<br><br>
-									<b>April 6th, 2013</b> - We have announced the details of <a href="cfposters.php">posters</a>.
-								</div>
-								<img src="images/fb_graph.jpg">
-							</div>
-							<div style="float: right; width: 440px;"><b>March 16th, 2013</b> - We have announced the details of <a href="cfsponsorship.php">sponsorship</a>, <a href="cfworkshop.php">workshop proposals</a>, <a href="cfdemos.php">demonstrations</a> and <a href="industry.php">industry events</a>. Please check the corresponding pages for more information.</div>
-							<img src="images/sfviews_04.jpg">
-						</div>
-						<div class="pageContentBoxItem">
-							<div style="float: right; width: 440px;"><b>August 6th, 2012</b> - The 22nd ACM International Conference on Information and Knowledge Management (CIKM 2013) will be held from October 27 to November 1, 2013 at San Francisco Airport Marriott Waterfront, Burlingame, CA, USA.</div>
-							<img src="images/redbridge.jpeg">
-						<div>
-					</div>
-				</div>
-			</td>
-			<td width="260">
-				<div class="pageSideBar">
-	<div class="sideBarTitle">
-		Important Links
-	</div>
-	<div class="sideBarContent">
-		<ul>
-			<li><a href="cfp.php">Call For Papers</a>
-			<li><a href="cfworkshop.php">Call For Workshop Proposals</a>
-			<li><a href="cfdemos.php">Call For Demonstrations</a>
-			<li><a href="cfposters.php">Call For Posters</a>
-			<li><a href="dates.php">Important Dates</a>
-			<li><a href="industry.php">Industry Events</a>
-		</ul>
-	</div>
-	<div class="sideBarTitle">
-		<b>Sponsors</b>
-	</div>
-	<div class="sideBarContent">
-		<p align="center"><a href="cfsponsorship.php">Call for sponsorship</a></p>
-	</div>
-	<div class="sideBarSubtitle">
-		Organizations
-	</div>
-	<div class="sideBarContent">
-		<p align="center"><img src="images/acm_logo.jpg"></p>
-		<p align="center"><img src="images/sigir_logo.png"></p>
-		<p align="center"><img src="images/sigweb_logo.jpeg"></p>
-	</div>
-</div>			</td>
-		</tr>
-	</table>
-	<div style="padding-top: 40px; background-color: #fff; width: 1000px;">
-	<div style="width: 100%; height: 97px; background: url('images/bottom_bar.jpg') no-repeat;"></div>
-<div>	</center>
-</body>
+		
+
+		<div id="right" class="column">
+
+
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+			
+						<img src="images/device_top.png">
+
+		
+
+		</div>
+		
+		</div>
+		<div id="footer">
+			<p>29th International Conference on Data Engineering - Brisbane April 2013</p>
+			<p>Design by <a href="http://lcmdesign.com.au">LCMDesign</a></p>
+			<p>Images of Brisbane courtesy of Cyron R Macey (<a href="http://www.flickr.com/photos/cyron/1391267540/" title="Storybridge Panorama">Storybridge Panorama</a>, <a href="http://www.flickr.com/photos/cyron/47419058" title="Bougainvillea">Bougainvillea</a>)</p>
+		</div>
+	</body>
 </html>
+ 

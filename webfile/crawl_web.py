@@ -39,7 +39,8 @@ hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML,
 
 
 #declaring variables
-wordsearch = ['submission','deadline','timeline','calender'] #event,important,event,date,time
+wordsearch = ['submission','deadline','timeline','calender','important','dates'] #event,important,event,date,time
+linksearch = ['submission','deadline','timeline','calender','important','event','date']
 url_list = list()
 url_list_all = []
 priority_list = list()
@@ -52,16 +53,18 @@ flag_res=0
 #date
 
 date1 = "(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d" # mm-dd-yyyy
-date2 = "(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])" # yyyy-mm-dd
-date3 = "(0[1-9]|[12][0-9]|3[01])(st|nd|rd|th| )[- /.](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|Septempber|October|November|December)[- /.,](19|20)\d\d" #dd{..}-{march}-,yyyy
+date2 = "[0123]*[0-9][- /.](0[1-9]|1[012])[- /.](19|20)\d\d" # dd-mm-yyyy ([1-9]|0[1-9]|[12][0-9]|3[01])
+date3 = "[0-9]+(st|nd|rd|th|)[- /.](jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|january|february|march|april|may|june|july|august|septempber|october|november|december)[- /.,][\s]*(19|20)\d\d" #dd{..}-{march}-,yyyy
 date4 = "(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|january|february|march|april|may|june|july|august|septempber|october|november|december)[- /.,](0[1-9]|[12][0-9]|3[01])(st|nd|rd| |th|)(,| )[\s]*(19|20)\d\d"
+#data5 = "[0-9]+[- /.][0-9]+[- /.][0-9]+"
 d1 = re.compile(date1)
 d2 = re.compile(date2)
 d3 = re.compile(date3) 
 d4 = re.compile(date4)
+#d5 = re.compile(data5)
 
 #Google api search----first go"
-query=sys.argv[1]+" 2013"
+query=sys.argv[1]+" conference 2013"
 conf_type=sys.argv[2]
 query1=query.split()
 q='+'.join(query1)
@@ -108,10 +111,13 @@ def search_date(data):
 	global d2
 	global d3
 	global d4
+	global d5
 	m1=d1.search(data);
 	m2=d2.search(data);
 	m3=d3.search(data);
 	m4=d4.search(data);
+#	m5=d5.search(data);
+
 	if(m1 or m2 or m3 or m4):
 		 return 1
 	else:
@@ -171,7 +177,7 @@ class MyHTMLParser(HTMLParser):
 		global flag2
 		if (flag2==1):
 			#print "link------>",data
-			for w in wordsearch:
+			for w in linksearch:
 				if (w in data.lower()):
 					#move from normal list to priority list
 					priority_list.append(url_list.pop())
@@ -201,7 +207,7 @@ parser = MyHTMLParser()
 while 1:
 	while(len(priority_list)!=0):
 		curr_page_url = priority_list.pop(0)
-		
+		print "prior---->"+curr_page_url+"<br>"
 		#fetching link
 		curr_page_url = urlparse.urlsplit(curr_page_url)
 		curr_page_url = curr_page_url.geturl()
@@ -235,7 +241,7 @@ while 1:
 	if(len(url_list) != 0 and curr_depth < max_depth):
 
 		curr_page_url = url_list.pop(0)
-		#print '___________',curr_page_url,'___________'
+		print "norm---->"+curr_page_url+"<br>"
 		if(curr_page_url == '-----c-----'):
 			#print "PPPPPPPPPRRRRRRRRRRRIIIIIIIIIIIOOOOOOOOOOOOOOOORRRRRRRRRRRR"
 			#print result_list
