@@ -1,4 +1,0 @@
-We have implemented the basic web-crawler which, given an initial link parses recursively upto a certain specified maximum depth.While doing it, it performs the following task:-
-1) We have maintained two queues for maintaining url list to be parsed.These are priority_url and normal url_list. Our crawler first crawls through links in priority_url and then url_list.If the url or the text representing url on the webpage contains some specific keywords like conference name,"calender",timeline etc then the url is moved to priority_list.
-
-2) Often 'href' attribute has relative value or '#' or 'mailto' links. Therefore to get par with this proper url checking and standardisation has been done ie the url is made absolute.
