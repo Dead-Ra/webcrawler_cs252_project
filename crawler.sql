@@ -26,8 +26,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `table1`
 --
 
-CREATE DATABASE crawler
-USE crawler
+/*CREATE DATABASE crawler
+USE crawler*/
 
 CREATE TABLE IF NOT EXISTS `table1` (
   `Sr_no` int(11) NOT NULL AUTO_INCREMENT,

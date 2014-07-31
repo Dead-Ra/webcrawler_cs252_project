@@ -9,12 +9,14 @@ import json
 sys.stderr = sys.stdout
 
 #setting proxy connection
-proxy = urllib2.ProxyHandler({'https': 'http://dibya:dibya78@proxy.iitk.ac.in:3128',
-			      'http': 'http://dibya:dibya78@proxy.iitk.ac.in:3128'})
+proxy = urllib2.ProxyHandler({'https': 'http://javeshg:Temporary@ironport1.iitk.ac.in:3128',
+			      'http': 'http://javeshg:Temporary@ironport1.iitk.ac.in:3128'})
 auth = urllib2.HTTPBasicAuthHandler()
 opener = urllib2.build_opener(proxy, auth, urllib2.HTTPHandler,urllib2.HTTPSHandler,urllib2.HTTPRedirectHandler)
 urllib2.install_opener(opener)
 #proxy connection made
+
+#print "hello"
 
 hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -65,16 +67,21 @@ q='+'.join(query1)
 gg="https://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=large&q="
 google=gg+q
 #print google
+#a="0"
+#print "request send " + google
 req = urllib2.Request(google, headers=hdr)
 try:
+#	a="1"
 	f = urllib2.urlopen(req)
 except urllib2.HTTPError, e:
-	a=9
-        #print e.fp.read()
+#	a="90"
+        print e.fp.read()
 except urllib2.URLError, e2:
-	a=9
-	#print "There was an error:", e2
+#	a="9"
+	print "There was an error:", e2
 
+
+#print "request over" + a
 
                 #storing html page in temporary web1 file
 data = json.load(f)

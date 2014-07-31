@@ -3,7 +3,7 @@
 	$database=0;
 	if(isset($_POST["conf"])){
 		if(($_POST["conf"]!= NULL)){
-			$con = mysql_connect("localhost","root","123");
+			$con = mysql_connect("localhost","root","qwerty");
 			if (!$con)
 			{
 			  die('Could not connect: ' . mysql_error());
@@ -20,6 +20,10 @@
 			$re="SELECT * FROM $table WHERE Acronym ='$confer'";
 			$result=mysql_query($re,$con);
 			$count= mysql_num_rows($result);
+//////////////////////////////////////////////////////////////////////
+			$count=0;	// this is done so that program does not reed from database.
+					// remove this line for actual project
+//////////////////////////////////////////////////////////////////////
 			$flagop=0;
 			if($count==1)
 			{
@@ -45,6 +49,7 @@
 				$x = "crawl.py ";
 				$shell = 'python '.$x.'"'.$confer.' conference 2013 '.$data.'"';
 				$output = shell_exec($shell);
+				//echo $shell;
 				$lines = explode(PHP_EOL, $output);
 				//echo "<pre>";
 				//print_r ($lines);
